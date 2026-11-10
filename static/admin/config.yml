@@ -40,6 +40,7 @@ collections:
         hint: "Which dropdown the gallery appears under. 'None' galleries need their own link in Site Settings > Navigation."
         options:
           - {label: "None", value: ""}
+          - {label: "Recent", value: "recent"}
           - {label: "Commercial", value: "commercial"}
           - {label: "Location", value: "location"}
           - {label: "Models", value: "models"}
@@ -105,7 +106,7 @@ collections:
                 name: "category"
                 widget: "select"
                 required: false
-                options: ["commercial", "location", "models", "residential", "headshots"]
+                options: ["recent", "commercial", "location", "models", "residential", "headshots"]
           - label: "Social links"
             name: "social"
             widget: "list"

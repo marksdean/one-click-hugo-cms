@@ -16,6 +16,10 @@
           {{ $kids := (where $galleries "Params.category" .category).ByWeight }}
           {{ with $kids }}
           {{ $first := index . 0 }}
+          {{ if eq (len .) 1 }}
+          {{- /* A category with a single gallery is a plain link, not a dropdown. */}}
+          <li><a href="{{ $first.RelPermalink }}" class="top"{{ if eq $first $page }} aria-current="page"{{ end }}>{{ $item.label }}</a></li>
+          {{ else }}
           <li class="has-sub">
             <a href="{{ $first.RelPermalink }}" class="top"{{ if and (eq $page.Section "galleries") (eq $page.Params.category $item.category) }} aria-current="true"{{ end }}>{{ $item.label }}</a>
             <ul class="sub">
@@ -24,6 +28,7 @@
               {{ end }}
             </ul>
           </li>
+          {{ end }}
           {{ end }}
         {{ else }}
           {{ $url := .url | relURL }}

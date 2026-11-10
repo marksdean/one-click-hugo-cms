@@ -8,20 +8,23 @@
       {{ $img := . }}
       {{ $ar := div (float $img.Width) $img.Height }}
       {{ $srcset := slice }}
-      {{ range slice 640 1024 1600 2500 }}
-        {{ if lt . $img.Width }}
+      {{- /* Largest size served: the upload's own width, capped at 2500px so
+             oversized uploads (straight from a camera) still build and load fast. */ -}}
+      {{ $fullW := int (math.Min $img.Width 2500) }}
+      {{ range slice 640 1024 1600 }}
+        {{ if lt . $fullW }}
           {{ $r := $img.Resize (printf "%dx webp" .) }}
           {{ $srcset = $srcset | append (printf "%s %dw" $r.RelPermalink .) }}
         {{ end }}
       {{ end }}
-      {{ $full := $img.Resize (printf "%dx webp" $img.Width) }}
-      {{ $srcset = $srcset | append (printf "%s %dw" $full.RelPermalink $img.Width) }}
+      {{ $full := $img.Resize (printf "%dx webp" $fullW) }}
+      {{ $srcset = $srcset | append (printf "%s %dw" $full.RelPermalink $fullW) }}
       {{ $sizes := "(max-width: 2540px) calc(100vw - 40px), 2500px" }}
       {{ if lt $ar 1.0 }}{{ $sizes = "(max-width: 720px) calc(100vw - 40px), (max-width: 1100px) 50vw, 34vw" }}{{ end }}
       {{ $alt := $entry.alt | default (printf "%s — photo %d" $page.Title (add $i 1)) }}
       <figure class="gallery-item" style="--ar: {{ printf "%.4f" $ar }}; --w: {{ math.Floor (mul $ar $rowH) }}px">
         <a href="{{ $full.RelPermalink }}" data-srcset="{{ delimit $srcset ", " }}" aria-label="View larger: {{ $alt }}">
-          <img src="{{ $img.RelPermalink }}" srcset="{{ delimit $srcset ", " }}" sizes="{{ $sizes }}"
+          <img src="{{ $full.RelPermalink }}" srcset="{{ delimit $srcset ", " }}" sizes="{{ $sizes }}"
                width="{{ $img.Width }}" height="{{ $img.Height }}" alt="{{ $alt }}"
                {{ if lt $i 2 }}fetchpriority="high"{{ else }}loading="lazy"{{ end }} decoding="async">
         </a>

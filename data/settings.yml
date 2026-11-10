@@ -3,6 +3,8 @@
 nav:
   - label: home
     url: /
+  - label: recent
+    category: recent
   - label: commercial
     category: commercial
   - label: location

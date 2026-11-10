@@ -3,6 +3,7 @@ title: "Mark Dean Photography"
 build:
   render: never
   list: never
+  publishResources: false
 images:
   - image: home-01.webp
     alt: ""
