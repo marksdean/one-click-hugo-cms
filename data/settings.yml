@@ -1,0 +1,26 @@
+# Top navigation. An item with "category" becomes a dropdown listing every
+# gallery in that category; an item with "url" is a plain link.
+nav:
+  - label: home
+    url: /
+  - label: commercial
+    category: commercial
+  - label: location
+    category: location
+  - label: portraits
+    url: /portraits/
+  - label: models
+    category: models
+  - label: residential
+    category: residential
+  - label: headshots
+    category: headshots
+  - label: contact
+    url: /contact/
+social:
+  - name: SmugMug
+    icon: smugmug
+    url: https://markdean.smugmug.com
+  - name: Instagram
+    icon: instagram
+    url: https://instagram.com/markdeanphotography

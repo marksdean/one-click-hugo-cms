@@ -1,0 +1,7 @@
+<footer class="site-footer">
+  <ul class="social">
+    {{ range hugo.Data.settings.social }}
+    <li><a href="{{ .url }}" target="_blank" rel="noopener" aria-label="{{ .name }}">{{ partial "icon.html" .icon }}</a></li>
+    {{ end }}
+  </ul>
+</footer>

@@ -1,0 +1,179 @@
+@font-face {
+  font-family: "Jost";
+  src: url("/fonts/jost-latin-wght-normal.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --text: #666;
+  --muted: #9c9c9c;
+  --strong: #000;
+  --bg: #fff;
+  --line: #ccc;
+  --pad: 20px;
+  --gap: 9px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  padding: 0 var(--pad);
+  background: var(--bg);
+  color: var(--text);
+  font: 300 14px/1.6 "Jost", "Helvetica Neue", Arial, sans-serif;
+  letter-spacing: 0.04em;
+}
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; }
+ul { list-style: none; margin: 0; padding: 0; }
+
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip-path: inset(50%); white-space: nowrap;
+}
+.skip { position: absolute; left: -999px; top: 0; background: var(--bg); padding: 8px 12px; z-index: 20; }
+.skip:focus { left: 8px; top: 8px; }
+
+/* ---------- Header ---------- */
+.site-header {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 15px 0 30px;
+  position: relative;
+}
+.logo { margin-right: 15px; flex: none; }
+.logo img { width: 197px; height: 80px; object-fit: contain; object-position: left center; }
+
+.site-nav > ul { display: flex; flex-wrap: wrap; }
+.site-nav li { position: relative; }
+.site-nav a {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.site-nav a.top { padding: 28px 15px; }
+.site-nav a:hover,
+.site-nav a:focus-visible,
+.site-nav a[aria-current],
+.site-nav li:hover > a.top,
+.site-nav li:focus-within > a.top { color: var(--strong); }
+
+.site-nav .sub {
+  position: absolute;
+  left: 0;
+  top: calc(100% - 28px);
+  z-index: 10;
+  min-width: 100%;
+  width: max-content;
+  max-width: 260px;
+  padding: 4px 0 8px;
+  background: var(--bg);
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.15s, visibility 0.15s;
+}
+.site-nav li:hover > .sub,
+.site-nav li:focus-within > .sub { visibility: visible; opacity: 1; }
+.site-nav .sub a { padding: 3.75px 15px; line-height: 1.25; }
+
+.nav-toggle {
+  display: none;
+  margin-left: auto;
+  width: 44px; height: 44px;
+  background: none; border: 0; padding: 0; cursor: pointer;
+  color: var(--text);
+}
+.nav-toggle .bars,
+.nav-toggle .bars::before,
+.nav-toggle .bars::after {
+  display: block; width: 22px; height: 1.5px; background: currentColor; margin: 0 auto; position: relative;
+}
+.nav-toggle .bars::before, .nav-toggle .bars::after { content: ""; position: absolute; left: 0; }
+.nav-toggle .bars::before { top: -7px; }
+.nav-toggle .bars::after { top: 7px; }
+
+@media (max-width: 760px) {
+  .site-header { padding: 5px 0 15px; }
+  .logo img { width: 148px; height: 60px; }
+  .nav-toggle { display: block; }
+  .site-nav { display: none; flex-basis: 100%; padding: 10px 0 5px; }
+  .site-nav.open { display: block; }
+  .site-nav > ul { display: block; }
+  .site-nav a { font-size: 14px; }
+  .site-nav a.top { padding: 8px 0; }
+  .site-nav .sub {
+    position: static; visibility: visible; opacity: 1; max-width: none; width: auto; padding: 0 0 6px 15px;
+  }
+  .site-nav .sub a { padding: 6px 0; }
+}
+
+/* ---------- Page heading ---------- */
+.page-heading {
+  margin: 0 0 30px;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1;
+}
+
+/* ---------- Gallery: justified rows ----------
+   Each photo's base width (--w) is its aspect ratio x the target row height.
+   Photos wrap into rows and then grow in proportion to their aspect ratio
+   (--ar), so every photo in a row ends up the same height and each row fills
+   the full width. */
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap);
+}
+.gallery-item {
+  margin: 0;
+  flex: calc(var(--ar) * 100) calc(var(--ar) * 100) var(--w);
+  min-width: 0;
+  background: #f2f2f2;
+}
+.gallery-item img { width: 100%; height: auto; }
+
+/* ---------- Text pages ---------- */
+.prose { max-width: 640px; }
+.prose a { text-decoration: underline; }
+
+/* ---------- Contact ---------- */
+.contact-intro { margin: 30px 0 28px; }
+.contact { display: grid; grid-template-columns: minmax(0, 470px) 1fr; gap: 40px 200px; align-items: start; }
+.contact form { display: grid; gap: 16px; }
+.contact fieldset { border: 0; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0 10px; }
+.contact legend { padding: 0; grid-column: 1 / -1; }
+.contact fieldset label { font-size: 12px; }
+.contact label { display: block; }
+.contact label span { color: var(--muted); font-size: 12px; }
+.contact input, .contact textarea {
+  display: block; width: 100%; margin-top: 4px; padding: 10px;
+  font: inherit; color: #000; letter-spacing: normal;
+  background: #fafafa; border: 1px solid var(--line); border-radius: 0;
+}
+.contact input:focus, .contact textarea:focus { outline: none; background: #fff; border-color: #888; }
+.contact textarea { min-height: 100px; resize: vertical; }
+.contact button {
+  justify-self: start; margin-top: 4px; padding: 16px 34px;
+  font: 700 12px/1 "Jost", sans-serif; letter-spacing: 0.1em; text-transform: uppercase;
+  color: #fff; background: #222; border: 0; cursor: pointer;
+}
+.contact button:hover { background: #444; }
+.contact address { font-style: normal; display: grid; gap: 2px; padding-top: 22px; }
+.contact address strong { font-weight: 500; color: #444; }
+.contact address a { text-decoration: none; }
+.contact address a:hover { color: var(--strong); }
+.hp { position: absolute; left: -9999px; }
+@media (max-width: 900px) { .contact { grid-template-columns: 1fr; } .contact address { padding-top: 0; } }
+
+/* ---------- Footer ---------- */
+.site-footer { margin-top: 30px; padding-bottom: 30px; }
+.social { display: flex; gap: 14px; }
+.social a { display: block; color: #222; }
+.social a:hover { color: var(--muted); }

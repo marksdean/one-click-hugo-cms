@@ -1,20 +1,23 @@
-[build.environment]
-  NETLIFY_USE_YARN = "true"
-  YARN_VERSION = "1.22.17"
-
 [build]
-  command = "yarn build"
-  publish = "dist"
+  command = "hugo --gc --minify"
+  publish = "public"
 
+[build.environment]
+  HUGO_VERSION = "0.169.0"
+  TZ = "America/Los_Angeles"
+
+# Previews and branch deploys use their own URL instead of the production domain.
 [context.deploy-preview]
-  command = "yarn build:preview"
+  command = "hugo --gc --minify -b $DEPLOY_PRIME_URL"
 
-[dev]
-  framework = "hugo"
-  targetPort = 3000
+[context.branch-deploy]
+  command = "hugo --gc --minify -b $DEPLOY_PRIME_URL"
 
+# Keeps resized photos between builds so only new photos are processed.
 [[plugins]]
-  package = "netlify-plugin-cypress"
+  package = "netlify-plugin-hugo-cache-resources"
 
-  [plugins.inputs]
-    record = true
+[[headers]]
+  for = "/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
