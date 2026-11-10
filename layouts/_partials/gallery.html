@@ -20,9 +20,11 @@
       {{ if lt $ar 1.0 }}{{ $sizes = "(max-width: 720px) calc(100vw - 40px), (max-width: 1100px) 50vw, 34vw" }}{{ end }}
       {{ $alt := $entry.alt | default (printf "%s — photo %d" $page.Title (add $i 1)) }}
       <figure class="gallery-item" style="--ar: {{ printf "%.4f" $ar }}; --w: {{ math.Floor (mul $ar $rowH) }}px">
-        <img src="{{ $img.RelPermalink }}" srcset="{{ delimit $srcset ", " }}" sizes="{{ $sizes }}"
-             width="{{ $img.Width }}" height="{{ $img.Height }}" alt="{{ $alt }}"
-             {{ if lt $i 2 }}fetchpriority="high"{{ else }}loading="lazy"{{ end }} decoding="async">
+        <a href="{{ $full.RelPermalink }}" data-srcset="{{ delimit $srcset ", " }}" aria-label="View larger: {{ $alt }}">
+          <img src="{{ $img.RelPermalink }}" srcset="{{ delimit $srcset ", " }}" sizes="{{ $sizes }}"
+               width="{{ $img.Width }}" height="{{ $img.Height }}" alt="{{ $alt }}"
+               {{ if lt $i 2 }}fetchpriority="high"{{ else }}loading="lazy"{{ end }} decoding="async">
+        </a>
       </figure>
     {{ else }}
       {{ warnf "Photo %q listed in %s was not found next to it" $name $page.File.Path }}
