@@ -1,0 +1,116 @@
+backend:
+  name: git-gateway
+  branch: main
+
+# For editing on your own computer: run `npx decap-server` next to `hugo server`.
+local_backend: true
+
+site_url: https://www.markdean.studio
+logo_url: /img/logo.png
+
+# Default upload location (used by the Site Settings and Contact collections).
+media_folder: "static/img"
+public_folder: "/img"
+
+collections:
+  - name: "galleries"
+    label: "Galleries"
+    label_singular: "Gallery"
+    description: "Each gallery is one page of photos. Drag photos to reorder them."
+    folder: "content/galleries"
+    path: "{{slug}}/index"
+    slug: "{{slug}}"
+    create: true
+    # Photos are stored in the same folder as the gallery itself.
+    media_folder: ""
+    public_folder: ""
+    summary: "{{title}} — {{category}}"
+    sortable_fields: ["title", "category", "weight"]
+    view_groups:
+      - label: "Category"
+        field: "category"
+    fields:
+      - {label: "Title", name: "title", widget: "string", hint: "Used in the browser tab and for search engines."}
+      - {label: "Menu label", name: "nav_title", widget: "string", required: false, hint: "Name shown in the navigation. Leave empty to use the title."}
+      - {label: "Heading", name: "heading", widget: "string", required: false, hint: "Line of text shown above the photos. Leave empty for none."}
+      - label: "Category"
+        name: "category"
+        widget: "select"
+        required: false
+        hint: "Which dropdown the gallery appears under. 'None' galleries need their own link in Site Settings > Navigation."
+        options:
+          - {label: "None", value: ""}
+          - {label: "Commercial", value: "commercial"}
+          - {label: "Location", value: "location"}
+          - {label: "Models", value: "models"}
+          - {label: "Residential", value: "residential"}
+          - {label: "Headshots", value: "headshots"}
+      - {label: "Order in menu", name: "weight", widget: "number", value_type: "int", default: 50, hint: "Lower numbers come first."}
+      - label: "Photos"
+        name: "images"
+        widget: "list"
+        summary: "{{fields.image}}"
+        fields:
+          - {label: "Photo", name: "image", widget: "image"}
+          - {label: "Description (alt text)", name: "alt", widget: "string", required: false}
+      - {label: "Old addresses", name: "aliases", widget: "list", required: false, hint: "Old URLs that should redirect here, e.g. /new-gallery/"}
+      - {label: "Text below photos", name: "body", widget: "markdown", required: false}
+
+  - name: "pages"
+    label: "Pages"
+    files:
+      - name: "home"
+        label: "Home page photos"
+        file: "content/home/index.md"
+        media_folder: ""
+        public_folder: ""
+        fields:
+          - {label: "Title", name: "title", widget: "hidden", default: "Mark Dean Photography"}
+          - {label: "Build", name: "build", widget: "hidden"}
+          - label: "Photos"
+            name: "images"
+            widget: "list"
+            summary: "{{fields.image}}"
+            fields:
+              - {label: "Photo", name: "image", widget: "image"}
+              - {label: "Description (alt text)", name: "alt", widget: "string", required: false}
+      - name: "contact"
+        label: "Contact page"
+        file: "content/contact.md"
+        fields:
+          - {label: "Title", name: "title", widget: "string"}
+          - {label: "Layout", name: "layout", widget: "hidden", default: "contact"}
+          - {label: "Intro", name: "intro", widget: "text"}
+          - {label: "Name", name: "name", widget: "string"}
+          - {label: "Email", name: "email", widget: "string"}
+          - {label: "Phone", name: "phone", widget: "string"}
+          - {label: "Extra text", name: "body", widget: "markdown", required: false}
+
+  - name: "settings"
+    label: "Site Settings"
+    files:
+      - name: "settings"
+        label: "Navigation & social links"
+        file: "data/settings.yml"
+        fields:
+          - label: "Navigation"
+            name: "nav"
+            widget: "list"
+            summary: "{{fields.label}}"
+            hint: "Give an item either a link, or a category (which makes it a dropdown of that category's galleries)."
+            fields:
+              - {label: "Label", name: "label", widget: "string"}
+              - {label: "Link", name: "url", widget: "string", required: false, hint: "e.g. /portraits/"}
+              - label: "Category"
+                name: "category"
+                widget: "select"
+                required: false
+                options: ["commercial", "location", "models", "residential", "headshots"]
+          - label: "Social links"
+            name: "social"
+            widget: "list"
+            summary: "{{fields.name}}"
+            fields:
+              - {label: "Name", name: "name", widget: "string"}
+              - {label: "Icon", name: "icon", widget: "select", options: ["instagram", "smugmug", "link"]}
+              - {label: "URL", name: "url", widget: "string"}

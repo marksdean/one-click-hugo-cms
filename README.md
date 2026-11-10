@@ -1,54 +1,49 @@
-# Hugo template for Decap CMS with Netlify Identity
+# Mark Dean Photography
 
-This is a small business template built with [Hugo](https://gohugo.io) and [Decap CMS](https://github.com/decaporg/decap-cms), designed and developed by [Darin Dimitroff](https://twitter.com/deezel), [spacefarm.digital](https://www.spacefarm.digital).
+The site at [markdean.studio](https://www.markdean.studio), built with [Hugo](https://gohugo.io), edited with [Decap CMS](https://decapcms.org) and deployed on Netlify.
 
-## Getting started
+## Editing content
 
-Use our deploy button to get your own copy of the repository. 
+Go to `/admin/` on the live site and log in.
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/decaporg/one-click-hugo-cms&stack=cms)
+- **Galleries** – one entry per gallery. Add, remove and drag photos to reorder them. Pick a *Category* to place the gallery under a dropdown in the menu.
+- **Pages → Home page photos** – the photos on the front page.
+- **Pages → Contact page** – intro text, email and phone.
+- **Site Settings** – menu order and social links.
 
-This will setup everything needed for running the CMS:
+Every save is a commit to `main`, and Netlify rebuilds the site.
 
-* A new repository in your GitHub account with the code
-* Full Continuous Deployment to Netlify's global CDN network
-* Control users and access with Netlify Identity
-* Manage content with Decap CMS
-
-Once the initial build finishes, you can invite yourself as a user. Go to the Identity tab in your new site, click "Invite" and send yourself an invite.
-
-Now you're all set, and you can start editing content!
-
-## Local Development
-
-Clone this repository, and run `yarn` or `npm install` from the new folder to install all required dependencies.
-
-Then start the development server with `yarn start` or `npm start`.
-
-## Testing
-
-With the development server running, run the tests locally
-with `yarn cypress:run` or `npm run cypress:run`.
-Or use `yarn cypress:open` or `npm run cypress:open` to run interactively.
-
-Cypress tests also run on deploy with the [Cypress Netlify integration](https://www.netlify.com/integrations/cypress/).
-
-## Layouts
-
-The template is based on small, content-agnostic partials that can be mixed and matched. The pre-built pages showcase just a few of the possible combinations. Refer to the `site/layouts/partials` folder for all available partials.
-
-Use Hugo’s `dict` functionality to feed content into partials and avoid repeating yourself and creating discrepancies.
-
-## CSS
-
-The template uses a custom fork of Tachyons and PostCSS with cssnext and cssnano. To customize the template for your brand, refer to `src/css/imports/_variables.css` where most of the important global variables like colors and spacing are stored.
-
-## SVG Social Icons
-
-The social media icons are in `site/assets/img`.
-Make sure you use consistent icons in terms of viewport and art direction for optimal results.
-For an icon named `icons-facebook.svg`, refer to the SVG `social-icon` partial like so:
+## How it's organised
 
 ```
-{{ partial "social-icon" (dict "link" "#" "svg" "icons-facebook" "alt" "Kaldi on Facebook") }}
+content/
+  home/index.md            photos on the home page (+ the image files)
+  galleries/<name>/        one folder per gallery: index.md + its image files
+  contact.md
+data/settings.yml          menu and social links
+layouts/                   templates
+assets/css, assets/js      styles and the small menu script
+static/admin/              Decap CMS (config.yml defines the editing forms)
+static/img/                logo, favicon, share image
+scripts/fetch-photos.sh    one-off import of photos from the old Squarespace site
 ```
+
+Photos live next to the gallery that uses them. Upload the full-size file (about 2500px on the long edge is plenty); Hugo generates the smaller WebP sizes at build time.
+
+Galleries are laid out as justified rows. The target row height is `rowHeight` in `hugo.toml`.
+
+## Running locally
+
+Install Hugo (extended) 0.169 or newer (`brew install hugo`), then:
+
+```
+hugo server
+```
+
+To use the CMS locally as well, run `npx decap-server` in a second terminal and open `http://localhost:1313/admin/`.
+
+## Deploying
+
+Netlify runs `hugo --gc --minify` (see `netlify.toml`). Pull requests get their own preview URL. The first build resizes every photo and takes several minutes; later builds reuse the cached sizes.
+
+The contact form uses Netlify Forms: enable form detection under *Forms* in the Netlify dashboard, and set a notification email there.

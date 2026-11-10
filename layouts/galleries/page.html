@@ -1,0 +1,5 @@
+{{ define "main" }}
+  <h1 class="page-heading{{ if not .Params.heading }} visually-hidden{{ end }}">{{ .Params.heading | default .Title }}</h1>
+  {{ partial "gallery.html" . }}
+  {{ with .Content }}<div class="prose">{{ . }}</div>{{ end }}
+{{ end }}

@@ -1,0 +1,28 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} — {{ site.Title }}{{ end }}</title>
+{{ $desc := .Params.description | default site.Params.description }}
+<meta name="description" content="{{ $desc }}">
+<link rel="canonical" href="{{ .Permalink }}">
+<link rel="icon" href="{{ "img/favicon.ico" | relURL }}">
+<link rel="preload" href="{{ "fonts/jost-latin-wght-normal.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
+{{ with resources.Get "css/main.css" | minify | fingerprint }}
+<link rel="stylesheet" href="{{ .RelPermalink }}">
+{{ end }}
+<meta property="og:site_name" content="{{ site.Title }}">
+<meta property="og:title" content="{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} — {{ site.Title }}{{ end }}">
+<meta property="og:description" content="{{ $desc }}">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{ .Permalink }}">
+{{- /* Share image: first photo of the page, else the site default. */ -}}
+{{ $og := "" }}
+{{ $src := . }}{{ if .IsHome }}{{ with site.GetPage "/home" }}{{ $src = . }}{{ end }}{{ end }}
+{{ with index ($src.Params.images | default slice) 0 }}
+  {{ with $src.Resources.Get (path.Base .image) }}{{ $og = (.Fit "1200x1200 jpg").Permalink }}{{ end }}
+{{ end }}
+{{ if not $og }}{{ $og = site.Params.ogImage | absURL }}{{ end }}
+<meta property="og:image" content="{{ $og }}">
+<meta name="twitter:card" content="summary_large_image">
+{{ if .IsHome }}
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js" defer></script>
+{{ end }}

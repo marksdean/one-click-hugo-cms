@@ -1,0 +1,26 @@
+baseURL = "https://www.markdean.studio/"
+locale = "en-us"
+title = "Mark Dean Photography"
+disableKinds = ["taxonomy", "term", "rss"]
+enableRobotsTXT = true
+timeout = "30m"
+
+[params]
+  description = "Mark Dean Photography offers headshots, portraits, events, weddings, family, and commercial photography."
+  ogImage = "img/og-image.png"
+  # Target row height for gallery rows, in pixels (same as the old site).
+  rowHeight = 483
+
+[permalinks]
+  [permalinks.page]
+    galleries = "/:contentbasename/"
+
+[imaging]
+  resampleFilter = "Lanczos"
+  [imaging.jpeg]
+    quality = 85
+  [imaging.webp]
+    quality = 82
+
+[markup.goldmark.renderer]
+  unsafe = true
