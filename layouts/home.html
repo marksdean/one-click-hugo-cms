@@ -1,4 +1,7 @@
 {{ define "main" }}
-  <h1 class="visually-hidden">{{ site.Title }}</h1>
+  <div class="page-top">
+    <h1 class="visually-hidden">{{ site.Title }}</h1>
+    <button class="slideshow-start" type="button" hidden>slideshow</button>
+  </div>
   {{ with site.GetPage "/home" }}{{ partial "gallery.html" . }}{{ end }}
 {{ end }}

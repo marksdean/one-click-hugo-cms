@@ -1,5 +1,8 @@
 {{ define "main" }}
-  <h1 class="page-heading{{ if not .Params.heading }} visually-hidden{{ end }}">{{ .Params.heading | default .Title }}</h1>
+  <div class="page-top">
+    <h1 class="page-heading{{ if not .Params.heading }} visually-hidden{{ end }}">{{ .Params.heading | default .Title }}</h1>
+    <button class="slideshow-start" type="button" hidden>slideshow</button>
+  </div>
   {{ partial "gallery.html" . }}
   {{ with .Content }}<div class="prose">{{ . }}</div>{{ end }}
 {{ end }}

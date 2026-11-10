@@ -1,5 +1,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+{{- /* Apply the visitor's saved background choice before the page paints. */}}
+<script>try{var t=localStorage.getItem("theme");if(t==="black"||t==="gray")document.documentElement.dataset.theme=t}catch(e){}</script>
 <title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} — {{ site.Title }}{{ end }}</title>
 {{ $desc := .Params.description | default site.Params.description }}
 <meta name="description" content="{{ $desc }}">
