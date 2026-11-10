@@ -4,7 +4,8 @@
 {{ $desc := .Params.description | default site.Params.description }}
 <meta name="description" content="{{ $desc }}">
 <link rel="canonical" href="{{ .Permalink }}">
-<link rel="icon" href="{{ "img/favicon.ico" | relURL }}">
+<link rel="icon" href="{{ "img/favicon.ico" | relURL }}" sizes="48x48">
+<link rel="apple-touch-icon" href="{{ "img/apple-touch-icon.png" | relURL }}">
 <link rel="preload" href="{{ "fonts/jost-latin-wght-normal.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
 {{ with resources.Get "css/main.css" | minify | fingerprint }}
 <link rel="stylesheet" href="{{ .RelPermalink }}">

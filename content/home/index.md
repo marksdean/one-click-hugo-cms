@@ -4,7 +4,7 @@ build:
   render: never
   list: never
 images:
-  - image: home-01.jpg
+  - image: home-01.webp
     alt: ""
   - image: home-02.jpg
     alt: ""

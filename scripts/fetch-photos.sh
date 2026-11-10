@@ -51,7 +51,7 @@ for item in json.load(sys.stdin).get("items", []):
     [ -z "$url" ] && continue
     i=$((i + 1))
     out=$(printf "%s/%s-%02d.jpg" "$dir" "$prefix" "$i")
-    if [ -s "$out" ]; then skipped=$((skipped + 1)); continue; fi
+    if [ -s "$out" ] || [ -s "${out%.jpg}.webp" ]; then skipped=$((skipped + 1)); continue; fi
     if fetch -o "$out.part" "$url?format=2500w" && [ -s "$out.part" ]; then
       mv "$out.part" "$out"; downloaded=$((downloaded + 1))
     else
